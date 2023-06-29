@@ -13,7 +13,7 @@ class ProductsController extends Controller
     //
     public function index(){
         $products = products::all();
-        $productlist = products::paginate(4);
+        $productlist = products::latest()->paginate(4); //กำหนดขนาดจำนวนรายการข้อมูลที่แสดงต่อ 1 หน้าเพจ และเป็นเรียงจากข้อมูลล่าสุดขึ้นก่อน
         return view('backend.products.index',compact('products','productlist'));
     }
 
@@ -55,7 +55,7 @@ class ProductsController extends Controller
                     $productdata->product_no = $random_productID;
                     $productdata->product_title = $request->product_title;
                     $productdata->product_description = $request->product_description;
-                    $productdata->productcover_folder = $random_productFD."/";//ชื่อ path folder ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
+                    $productdata->productcover_folder = $random_productFD;//ชื่อ path folder ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
                     $productdata->productcover_img = $newFilenameupload;//ชื่อใหม่ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
                     $productdata->product_price = $request->product_price;
                     $productdata->product_unit = $request->product_unit;
@@ -141,5 +141,25 @@ class ProductsController extends Controller
             ]);
             return redirect()->back()->with('success','แก้ไขข้อมูลสำเร็จแล้ว');
         };
+    }
+
+
+    public function delProduct($id){
+        if($id){
+            $productDel = products::find($id);
+            $folderImg = $productDel->productcover_folder;
+            $img_name = $productDel->productcover_img;
+            $fullPathImg = "../public/products_img/".$folderImg."/".$img_name;
+            if(unlink($fullPathImg)){ // หากลบลบรูปภาพปกสินค้าสำเร็จจริง
+                $fullPathFolder = "../public/products_img/".$folderImg; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
+                rmdir($fullPathFolder);//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
+                $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
+                return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
+            }
+        }else{
+            return view('productslist');
+        }
+
+        //
     }
 }

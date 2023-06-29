@@ -70,6 +70,8 @@
                                     <label for="publish_status"  class="text-danger">ยังไม่แสดงผล  <input class="form-check-input" type="checkbox" name="publish_status"></label>
                                     @endif
                                 </div>
+                                <br />
+                                <a href="#" class="btn btn-secondary" >เพิ่มรูปภาพ</a>
                                 <div class="text-center">
                                     <input type="submit" class="btn btn-primary" value="แก้ไขข้อมูล">
                                 </div>
