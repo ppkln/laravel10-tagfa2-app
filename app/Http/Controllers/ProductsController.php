@@ -116,11 +116,12 @@ class ProductsController extends Controller
                         'productcover_img'=>$newFilenameupload,
                         'product_unit'=>$request->product_unit,
                         'product_price'=>$request->product_price,
+                        'user_id'=>$request->user_id,
                         'publish_status'=>$publish_status,
                         'updated_at'=>$date_update
                     ]);
                     $old_img = $request->Old_img;//ชื่อไฟล์รูปภาพเดิม มาจาก component hidden
-                    unlink($Pathfolderupload.$old_img); // ลบภาพเดิมที่ถูกแก้ไขแทนที่
+                    unlink($Pathfolderupload."/".$old_img); // ลบภาพเดิมที่ถูกแก้ไขแทนที่
                     return redirect()->back()->with('success','แก้ไขข้อมูลสำเร็จแล้ว');
                 }else{
                     return redirect()->back()->with('unsuccess','แก้ไขข้อมูลไม่สำเร็จ');
@@ -134,6 +135,7 @@ class ProductsController extends Controller
                 'product_description'=>$request->product_description,
                 'product_unit'=>$request->product_unit,
                 'product_price'=>$request->product_price,
+                'user_id'=>$request->user_id,
                 'publish_status'=>$publish_status,
                 'updated_at'=>$date_update
             ]);
