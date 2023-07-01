@@ -71,7 +71,7 @@
                                     @endif
                                 </div>
                                 <br />
-                                <a href="#" class="btn btn-secondary" >เพิ่มรูปภาพ</a>
+                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-secondary" >จัดการข้อมูลรูปภาพสินค้าเพิ่มเติม</a>
                                 <div class="text-center">
                                     <input type="submit" class="btn btn-primary" value="แก้ไขข้อมูล">
                                 </div>

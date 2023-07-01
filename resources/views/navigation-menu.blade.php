@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{route('welcome')}}"><img src="/logo-nueng1.png" alt="logo" height="60px" width="60px"></a>
+                <a href="{{route('welcome')}}"><img src="/logo-nueng1.png" alt="logo" height="60px" width="60px"></a>
                 </div>
 
                 <!-- Navigation Links -->

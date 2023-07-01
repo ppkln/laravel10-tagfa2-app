@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\ProductsController;
@@ -31,10 +32,14 @@ Route::middleware([
 });
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function (){
+    // ส่วนของ Product
     Route::get('/products',[ProductsController::class,'index'])->name('productslist');
     Route::post('/products/add',[ProductsController::class,'insertProduct'])->name('addProduct');
     Route::get('/products/edit/{id}',[ProductsController::class,'editProduct']);
     Route::post('/products/update/{id}',[ProductsController::class,'updateProduct']);
     Route::get('/products/del/{id}',[ProductsController::class,'delProduct']);
+    // ส่วนของ Album ที่ระบุของแต่ละ Product
+    Route::get('/albumproducts/album/{id}',[AlbumProductsController::class,'albumQueryId']);
+    Route::post('/albumproducts/add',[AlbumProductsController::class,'albumAddImg'])->name('albumAddImg');
 });
 

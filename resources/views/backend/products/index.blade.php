@@ -22,59 +22,53 @@
                         <div class="card-header text-center">ตารางรายการข้อมูลสินค้า</div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered text-center " style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ลำดับ</th>
-                                            <th style="width:15%">รหัสสินค้า</th>
-                                            <th scope="col">ชื่อหัวข้อสินค้า</th>
-                                            <th scope="col">รายละเอียดสินค้า</th>
-                                            <th scope="col">รูปปกสินค้า</th>
-                                            <th scope="col">ผู้บันทึก</th>
-                                            <th scope="col">สถานะแสดงผล</th>
-                                            <th scope="col">การดำเนินการ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($productlist as $row)
+                            <table class="table table-striped table-bordered text-center " style="width:100%">
+                                        <thead>
                                             <tr>
-                                                <th scope="row">{{$productlist->firstItem()+$loop->index}}</th>
-                                                <td>{{substr($row->product_no,0,8)}} ... {{substr($row->product_no,15,8)}}</td>
-                                                <td>{{$row->product_title}}</td>
-                                                <td>{{$row->product_description}}</td>
-                                                <td><img src="/products_img/{{$row->productcover_folder}}/{{$row->productcover_img}}" alt="" width="100px"></td>
-                                                <td>{{$row->user->name}}</td>
-                                                @if($row->publish_status == 0)
-                                                    <td class="text-danger text-center">
-                                                        <div class="form-check">
-                                                            <label class="form-check-label" for="checkDisplay[]">
-                                                                OFF <input class="form-check-input" type="checkbox" value="" id="checkDisplay[]" hidden>
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                @else
-                                                    <td class="text-success text-center">
-                                                        <div class="form-check">
-                                                            <label class="form-check-label" for="checkedDisplay[]">
-                                                                ON <input class="form-check-input" type="checkbox" value="" id="checkedDisplay[]" hidden>
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                @endif
-                                                <td class="text-nowrap text-center" >
-                                                    <a href="{{url('/products/edit/'.$row->id)}}" class="btn btn-sm btn-warning" >ปรับปรุง</a>
-                                                    <!-- <form action="{{url('/products/delete/'.$row->id)}}" method="post">
-                                                        <input type="hidden" name="Delproductcover_img" value="{{$row->productcover_img}}">
-                                                        <input type="submit" class="btn btn-sm btn-danger my-2" value="ลบ" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">
-
-                                                    </form> -->
-                                                    <a href="{{url('/products/del/'.$row->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
-                                                </td>
+                                                <th scope="col">ลำดับ</th>
+                                                <th style="width:15%">รหัสสินค้า</th>
+                                                <th scope="col">ชื่อหัวข้อสินค้า</th>
+                                                <th scope="col">รายละเอียดสินค้า</th>
+                                                <th scope="col">รูปปกสินค้า</th>
+                                                <th scope="col">ผู้ปรับปรุงข้อมูล</th>
+                                                <th scope="col">สถานะแสดงผล</th>
+                                                <th scope="col">การดำเนินการ</th>
                                             </tr>
-                                        @endforeach
-                                        <tr>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($productlist as $row)
+                                                    <tr>
+                                                        <th scope="row">{{$productlist->firstItem()+$loop->index}}</th>
+                                                        <td>{{substr($row->product_no,0,8)}} ... {{substr($row->product_no,15,8)}}</td>
+                                                        <td>{{substr($row->product_title,0,30)}}</td>
+                                                        <td>{{substr($row->product_description,0,50)}}</td>
+                                                        <td><img src="/products_img/{{$row->productcover_folder}}/{{$row->productcover_img}}" alt="" width="100px"></td>
+                                                        <td>{{$row->user->name}}</td>
+                                                        @if($row->publish_status == 0)
+                                                            <td class="text-danger text-center">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label" for="checkDisplay[]">
+                                                                        OFF <input class="form-check-input" type="checkbox" value="" id="checkDisplay[]" hidden>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        @else
+                                                            <td class="text-success text-center">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label" for="checkedDisplay[]">
+                                                                        ON <input class="form-check-input" type="checkbox" value="" id="checkedDisplay[]" hidden>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        @endif
+                                                        <td class="text-nowrap text-center" >
+                                                            <a href="{{url('/products/edit/'.$row->id)}}" class="btn btn-sm btn-warning" >ปรับปรุง</a>
+                                                            <a href="{{url('/products/del/'.$row->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                        </tbody>
+                                    </table>
                                 <br />
                                     <div>
                                         {{$productlist->onEachSide(1)->links()}} <!-- คำสั่งแสดงปุ่นกดไปแต่ละหน้า โดยหากมีจำนวนหน้ามากจะแบ่งย่อให้ดูง่ายขึ้น -->
