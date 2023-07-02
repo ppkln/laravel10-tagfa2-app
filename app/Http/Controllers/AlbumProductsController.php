@@ -15,19 +15,21 @@ class AlbumProductsController extends Controller
 
     public function albumQueryId($id){
         $product_album = products::find($id);
-        return view('backend.albumproducts.addimgs',compact('product_album'));
+        $album_data = albumproducts::where('product_no', $product_album->product_no)->get();
+        // echo "<pre>";
+        // print_r($album_data);
+        // echo "</pre>";
+        return view('backend.albumproducts.addimgs',compact('product_album','album_data'));
     }
 
     public function albumAddImg(Request $request){
         $request->validate([
             'album_img' => 'required',
-            'album_img.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'album_img.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ],[
-            [
                 'album_img.required' =>"กรุณาระบุรูปภาพสินค้า",
                 'album_img.max' =>"ขนาดไฟล์ไม่เกินไฟล์ละ 2 MB",
                 'album_img.image' =>"รองรับเฉพาะไฟล์นามสกุล jpg,jpeg,png เท่านั้น",
-            ]
         ]);
         $product_no = $request->product_no;
         $productcover_folder = $request->productcover_folder;
@@ -35,8 +37,7 @@ class AlbumProductsController extends Controller
         if($request->file('album_img')){
             //ตรวจสอบว่าได้มีข้อมูลหมายเลข Product_no นี้อยู่ในฐานข้อมูลแล้วหรือไม่ หากมีจะต้องใช้เลข album_no เดิม
             $album_Oldno = albumproducts::where('product_no',$product_no)->first();
-
-            if($album_Oldno){//เคยบันทึกข้อมูลรูปภาพเพิ่มเติมของสินค้าตัวนี้แล้ว
+            if($album_Oldno){//กรณีเคยบันทึกข้อมูลรูปภาพเพิ่มเติมของสินค้าตัวนี้
                 $album_NO = $album_Oldno->album_no;
                 $PathfolderProduct="../public/products_img/".$productcover_folder."/";//ชื่อโฟลเดอร์ที่จัดเก็บข้อมูลรูปภาพของสินค้าชิ้นนี้
                 foreach($request->file('album_img') as $key=>$value){
@@ -53,7 +54,7 @@ class AlbumProductsController extends Controller
                     };
                 }
                 return redirect()->back()->with('success','เพิ่มข้อมูลรูปภาพสำเร็จแล้ว');
-            }else{//ไม่เคยบันทึกข้อมูลรูปภาพเพิ่มเติมของสินค้าตัวนี้แล้ว
+            }else{//กรณีไม่เคยบันทึกข้อมูลรูปภาพเพิ่มเติมของสินค้าตัวนี้
                 $album_NO = "ALBNO_".hexdec(uniqid());//สร้างหมายเลข Album สินค้า ด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน16
                 $PathfolderProduct="../public/products_img/".$productcover_folder."/";//ชื่อโฟลเดอร์ที่จัดเก็บข้อมูลรูปภาพของสินค้าชิ้นนี้
                 $mkdirfolder = mkdir($PathfolderProduct.$album_NO,0777,true); //คำสั่งให้ทำการสร้าง Folder ย่อยภายใน folder ที่เก็บภาพสินค้า

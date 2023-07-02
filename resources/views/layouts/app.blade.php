@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'TAGFA-TH') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -18,6 +18,29 @@
         <!-- Styles -->
         @livewireStyles
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!-- Gallery-->
+        <style >
+            div.img {
+                margin: 5px;
+                border: 1px solid #ccc;
+                float: left;
+                width: 180px;
+            }
+
+            div.img:hover {
+                border: 1px solid #777;
+            }
+
+            div.img img {
+                width: 100%;
+                height: 200px;
+            }
+            div.desc {
+                padding: 15px;
+                text-align: center;
+            }
+        </style>
+        <!-- end Gallery-->
     </head>
     <body class="font-sans antialiased">
         <x-banner />

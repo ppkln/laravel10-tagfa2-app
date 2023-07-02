@@ -70,10 +70,10 @@
                                     <label for="publish_status"  class="text-danger">ยังไม่แสดงผล  <input class="form-check-input" type="checkbox" name="publish_status"></label>
                                     @endif
                                 </div>
+                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-secondary p-3" >จัดการข้อมูลรูปภาพสินค้า</a>
                                 <br />
-                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-success" >จัดการรูปภาพสินค้า</a>
-                                <div class="text-center">
-                                    <input type="submit" class="btn btn-primary" value="แก้ไขข้อมูล">
+                                <div class="row text-center">
+                                    <input type="submit" class="btn btn-primary mt-3" value="แก้ไขข้อมูล">
                                 </div>
                             </form>
                         </div>
