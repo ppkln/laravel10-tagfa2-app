@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\products;
+use App\Models\albumproducts;
 use App\Models\User;
 use DateTime;
 use Illuminate\Validation\Rules\Unique;
@@ -159,14 +160,79 @@ class ProductsController extends Controller
     public function delProduct($id){
         if($id){
             $productDel = products::find($id);
-            $folderImg = $productDel->productcover_folder;
-            $img_name = $productDel->productcover_img;
-            $fullPathImg = "../public/products_img/".$folderImg."/".$img_name;
-            if(unlink($fullPathImg)){ // หากลบลบรูปภาพปกสินค้าสำเร็จจริง
-                $fullPathFolder = "../public/products_img/".$folderImg; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
-                rmdir($fullPathFolder);//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
-                $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
-                return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
+            if($productDel){
+                $productcover_folder = $productDel->productcover_folder;//ข้อมูลชื่อโฟลเดอร์ที่เก็บรูปภาพปกสินค้าเอาไว้
+                $album_data = albumproducts::where('product_no', $productDel->product_no)->first();//ตรวจสอบว่าสินค้านี้มีการจัดเก็บรูปรายละเอียดสินค้าในตาราง albumproduct หรือไม่
+                if($album_data){ //หากพบว่าสินค้านี้มีการจัดเก็บรูปรายละเอียดสินค้า จะต้องลบรูปที่เป็นรายละเอียดสินค้าให้เสร็จก่อนที่จะลบรูปปกสินค้าได้
+                    $folderAlbum = $album_data->album_no; //แสดงชื่อโฟรเดอร์หมายเลข album
+                    $stmtAlbumDel = albumproducts::where('album_no',$folderAlbum)->get();//ค้นหาข้อมูลรูปรายละเอียดสินค้าทั้งหมด ที่จัดเก็บอยู่ในโฟลเดอร์ album_no นี้
+                    foreach($stmtAlbumDel as $key=>$value){
+                        $imgDel_name = $value->img_name;
+                        $pathDelImg = "../public/products_img/".$productcover_folder."/".$folderAlbum."/".$imgDel_name;
+                        if(file_exists($pathDelImg)){
+                            if(unlink($pathDelImg)){//ทำการลบข้อมูลรูปรายละเอียดสินค้าแต่ละรายการในตารางฐานข้อมูล
+                                $delImgAlbum = albumproducts::find($value->id)->delete();
+                            }else{
+                                return redirect()->back()->with('unsuccess','ลบข้อมูลไม่สำเร็จ');
+                            }
+                        }
+                    }
+                    $pathDelAlbum = "../public/products_img/".$productcover_folder."/".$folderAlbum;
+                    if(rmdir($pathDelAlbum)){//ลบโฟลเดอร์ album ที่ว่างเปล่าทิ้ง
+                        $img_name = $productDel->productcover_img;
+                        $fullPathImg = "../public/products_img/".$productcover_folder."/".$img_name;
+                        if(file_exists($fullPathImg)){//เช็คว่ามีไฟล์รูปภาพนี้อยู่จริงหรือไม่
+                            if(unlink($fullPathImg)){ // หากลบลบรูปภาพปกสินค้าสำเร็จจริง
+                                $fullPathFolderDel = "../public/products_img/".$productcover_folder; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
+                                if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
+                                    $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
+                                    return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
+                                }else{
+                                    return redirect()->back()->with('unsuccess','ลบข้อมูลโฟลเดอร์ '.$productcover_folder.' ไม่สำเร็จ');
+                                }
+
+                            }else {
+                                return redirect()->back()->with('unsuccess','ลบข้อมูลไม่สำเร็จ');
+                            }
+                        }elseif(file_exists("../public/products_img/".$productcover_folder)){
+                            $fullPathFolderDel = "../public/products_img/".$productcover_folder;
+                            if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
+                                $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
+                                return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
+                            }else{
+                                return redirect()->back()->with('unsuccess','ลบข้อมูลโฟลเดอร์ '.$productcover_folder.' ไม่สำเร็จ');
+                            }
+                        }
+
+                    }else{
+                        return redirect()->back()->with('unsuccess','ลบข้อมูลโฟลเดอร์ '.$productcover_folder.' ไม่สำเร็จ');
+                    }
+                }
+
+                $img_name = $productDel->productcover_img;
+                $fullPathImg = "../public/products_img/".$productcover_folder."/".$img_name;
+                if(file_exists($fullPathImg)){
+                    if(unlink($fullPathImg)){ // หากลบลบรูปภาพปกสินค้าสำเร็จจริง
+                        $fullPathFolderDel = "../public/products_img/".$productcover_folder; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
+                        if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
+                            $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
+                            return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
+                        }else{
+                            return redirect()->back()->with('unsuccess','ลบข้อมูลโฟลเดอร์ '.$productcover_folder.' ไม่สำเร็จ');
+                        }
+
+                    }else {
+                        return redirect()->back()->with('unsuccess','ลบข้อมูลไม่สำเร็จ');
+                    }
+                }elseif(file_exists("../public/products_img/".$productcover_folder)){
+                    $fullPathFolderDel = "../public/products_img/".$productcover_folder;
+                    if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
+                        $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
+                        return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
+                    }else{
+                        return redirect()->back()->with('unsuccess','ลบข้อมูลโฟลเดอร์ '.$productcover_folder.' ไม่สำเร็จ');
+                    }
+                }
             }
         }else{
             return view('productslist');
