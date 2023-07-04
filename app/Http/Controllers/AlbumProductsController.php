@@ -15,11 +15,13 @@ class AlbumProductsController extends Controller
 
     public function albumQueryId($id){
         $product_album = products::find($id);
-        $album_data = albumproducts::where('product_no', $product_album->product_no)->get();
-        // echo "<pre>";
-        // print_r($album_data);
-        // echo "</pre>";
-        return view('backend.albumproducts.addimgs',compact('product_album','album_data'));
+        if($product_album){
+            $album_data = albumproducts::where('product_no', $product_album->product_no)->get();
+            return view('backend.albumproducts.addimgs',compact('product_album','album_data'));
+        }else {
+            return view('welcome');
+        }
+
     }
 
     public function albumAddImg(Request $request){

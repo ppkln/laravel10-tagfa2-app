@@ -7,7 +7,7 @@
     <div class="py-12">
         <div class="container my-2">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-lg-10">
                 @if($message = Session::get('success'))
                     <div class="alert alert-success">
                         <span class="text-success py-2">{{$message}}</span>
@@ -31,45 +31,68 @@
                                     <label class="text-success">ชื่อสินค้า :  </label><span class="text-primary"> {{$product_album->product_title}}</span><br/>
                                     <label class="text-danger" >รูปปกสินค้า:</label>
                                     <img src="/products_img/{{$product_album->productcover_folder}}/{{$product_album->productcover_img}}" id="previewCoverImg" alt="" class="p-2" style="width: 400px;">
-                                    <hr>
-                                </div>
-                                <div class="row">
-                                    <label class="text-danger p-2" >รูปภาพรายละเอียดสินค้า:</label><br/>
-                                        @foreach($album_data as $key => $value)<!-- แสดงรูปภาพแต่ละภาพ -->
-                                            <!-- Gallery-->
-                                            <div class="img p-2"><!-- class img นี้ได้เขียนคำสั่ง script ไว้ที่หน้า app.blade.php -->
-                                                <a target="_blank" href="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}">
-                                                    <img src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="#"  >
-                                                </a>
-                                                <div class="desc">เพิ่มรูปเมื่อ: {{$value->created_at}}</div><!-- class desc นี้ได้เขียนคำสั่ง script ไว้ที่หน้า app.blade.php -->
-                                            </div>
-                                            <!-- End Gallery-->
-                                        @endforeach
-                                </div>
-                                <br/>
-                                <hr>
-                                <div class="row">
-                                    <div class="mt-2 p-2">
-                                        <label class="mt-2 text-primary">เพิ่มรูป:<span class="text-warning"> (รองรับเฉพาะไฟล์นามสกุล jpg,jpeg,png เท่านั้น และไฟล์ขนาดไม่เกินไฟล์ละ 2 MB) </span>
-                                            <input type="file" class="form-control my-2" name="album_img[]" accept="image/jpeg,image/jpg,image/png" multiple="multiple">
-                                        </label>
-
+                                    <div class="row">
+                                        <div class="mt-2 p-2">
+                                            <label class="mt-2 text-primary">เพิ่มรูป: <span class="text-warning"> (รองรับเฉพาะไฟล์นามสกุล jpg,jpeg,png เท่านั้น และไฟล์ขนาดไม่เกินไฟล์ละ 2 MB) </span>
+                                                <input type="file" class="form-control my-2" name="album_img[]" accept="image/jpeg,image/jpg,image/png" multiple="multiple">
+                                            </label>
+                                        </div>
+                                        @error('album_img')
+                                            <span class="text-danger py-2">{{$message}}</span>
+                                        @enderror
+                                        <br/>
                                     </div>
-                                    @error('album_img')
-                                        <span class="text-danger py-2">{{$message}}</span>
-                                    @enderror
-                                    <br/>
                                 </div>
-                                <br/>
                                 <div class=" text-center p-3 my-3">
                                     <input type="submit" class="btn btn-primary navbar-btn" value="อัพโหลด">
                                 </div>
                             </form>
+                            <hr>
+                            <div class="row">
+                                <label class="text-danger p-2" >รูปภาพรายละเอียดสินค้า: </label>
+                            </div>
+                            <div class="container-album">
+                                <div class="products-con">
+                                    @foreach($album_data as $key => $value)
+                                        <div class="products-item">
+                                            <div class="products-img">
+                                                <a class="image"
+                                                data-fancybox="gallery"
+                                                data-src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}"
+                                            >
+                                                <img src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="{{$value->img_name}}" />
+                                            </a>
+                                            </div>
+                                            <div class="products-detail">
+                                                ชื่อไฟล์ภาพ: {{$value->img_name}}
+                                            </div >
+                                            <div class="products-price d-flex">
+                                                <div class="products-left">
+                                                    วันที่บันทึก:
+                                                </div >
+                                                <div class="products-right">
+                                                    {{$value->created_at}}
+                                                </div >
+                                            </div >
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container ">
+
+            </div>
     </div>
+    <!-- script of fancybox -->
+    <script>
+      Fancybox.bind('[data-fancybox="gallery"]', {
+        //
+      });
+    </script>
+
 </x-app-layout>
 

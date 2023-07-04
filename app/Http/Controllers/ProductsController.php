@@ -13,8 +13,15 @@ class ProductsController extends Controller
     //
     public function index(){
         $products = products::all();
-        $productlist = products::latest()->paginate(4); //กำหนดขนาดจำนวนรายการข้อมูลที่แสดงต่อ 1 หน้าเพจ และเป็นเรียงจากข้อมูลล่าสุดขึ้นก่อน
-        return view('backend.products.index',compact('products','productlist'));
+        if($products){
+            $productlist = products::latest()->paginate(4); //กำหนดขนาดจำนวนรายการข้อมูลที่แสดงต่อ 1 หน้าเพจ และเป็นเรียงจากข้อมูลล่าสุดขึ้นก่อน
+            if($productlist){
+                return view('backend.products.index',compact('products','productlist'));
+            }
+        }else {
+            return view('welcome');
+        }
+
     }
 
     public function insertProduct(Request $request){
@@ -76,7 +83,12 @@ class ProductsController extends Controller
 
     public function editProduct($id){
         $productEdit = products::find($id);
-        return view('backend.products.editProduct',compact('productEdit'));
+        if($productEdit){
+            return view('backend.products.editProduct',compact('productEdit'));
+        }else{
+            return view('welcome');
+        }
+
     }
 
     public function updateProduct(Request $request,$id){
