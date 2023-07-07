@@ -1,0 +1,17 @@
+ได้ใช้งาน library ของ fancybox (https://fancyapps.com/fancybox/getting-started/) ร่วมในการพัฒนาส่วนของ Gallery ภาพ ทำให้สามารถกดที่รูปภาพรายละเอียดสิาค้าแล้วแสดงออกมาได้สวยงาม
+<!-- fancybox -->  ระบุคำสั่งนี้ไว้ ณ ตำแหน่งที่ต้องการแสดงภาพ
+                                            <a class="image p-2"
+                                                data-fancybox="gallery"
+                                                data-src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}"
+                                            >
+                                                <img src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="{{$value->img_name}}" />
+                                            </a>
+                                             <!-- <div class="desc">เพิ่มรูปเมื่อ: {{$value->created_at}}</div>  class desc นี้ได้เขียนคำสั่ง script ไว้ที่หน้า app.blade.php -->
+ <!-- End fancybox -->
+ที่ส่วนท้ายของหน้าแสดงผล (addimgs.blade.php) ก่อนแท็ก </x-app-layout> ให้ระบุคำสั่งด้านล่างนี้ด้วย ไม่เช่นนั้น fancybox จะไม่ทำงาน 
+ <!-- script of fancybox -->
+    <script>
+      Fancybox.bind('[data-fancybox="gallery"]', {
+        //
+      });
+    </script>

@@ -169,7 +169,7 @@ class ProductsController extends Controller
                     foreach($stmtAlbumDel as $key=>$value){
                         $imgDel_name = $value->img_name;
                         $pathDelImg = "../public/products_img/".$productcover_folder."/".$folderAlbum."/".$imgDel_name;
-                        if(file_exists($pathDelImg)){
+                        if(file_exists($pathDelImg)){//หากมีไฟล์ชื่อนี้จริงใน path ที่ระบุ
                             if(unlink($pathDelImg)){//ทำการลบข้อมูลรูปรายละเอียดสินค้าแต่ละรายการในตารางฐานข้อมูล
                                 $delImgAlbum = albumproducts::find($value->id)->delete();
                             }else{

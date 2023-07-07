@@ -41,8 +41,6 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     // ส่วนของ Album ที่ระบุของแต่ละ Product
     Route::get('/albumproducts/album/{id}',[AlbumProductsController::class,'albumQueryId']);
     Route::post('/albumproducts/add',[AlbumProductsController::class,'albumAddImg'])->name('albumAddImg');
-    Route::get('/albumproducts/test',function () {
-        return view('backend.albumproducts.testAlbum');
-    });
+    Route::get('/albumproducts/deleteImg/{id}',[AlbumProductsController::class,'deleteImg']);
 });
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\User;
 use App\Models\albumproducts;
+use Illuminate\Console\View\Components\Alert;
 
 class AlbumProductsController extends Controller
 {
@@ -77,9 +78,61 @@ class AlbumProductsController extends Controller
                     return redirect()->back()->with('success','เพิ่มข้อมูลรูปภาพสำเร็จแล้ว');
                 }
             }
-
         }else {
             return redirect()->back()->with('unsuccess','เพิ่มข้อมูลรูปภาพ ไม่สำเร็จแล้ว');
+        }
+    }
+
+    public function deleteImg($id){
+        if($id){//หากไม่มีหมายเลข id ที่ส่งมาจะให้ออกจากการทำงาน controller นี้
+            $albumImgDel = albumproducts::find($id);
+            if($albumImgDel){
+                $album_no = $albumImgDel->album_no; //ได้ชื่อโฟลเดอร์ที่เก็บรูปภาพรายละเอีบดสินค้า
+                $albumImg_name = $albumImgDel->img_name;//ได้ชื่อรูปภาพ
+                $product_no = $albumImgDel->product_no;//ได้หมายเลขสินค้า
+                $pathProduct_no = products::where('product_no', $product_no)->first();
+                if($pathProduct_no){
+                    $ProductCover_folder = $pathProduct_no->productcover_folder;//ได้ชื่อโฟลเดอร์ที่เก็บรูปภาพปกสินค้า และเก็บไว้ในตัวแปร $ProductCover_folder
+                    $pathDelalbumImg = "../public/products_img/".$ProductCover_folder."/".$album_no ; // path สำหรับการลบไฟล์
+                        if(file_exists($pathDelalbumImg."/".$albumImg_name)){//หากมีไฟล์ชื่อนี้จริงใน path ที่ระบุ
+                            if(unlink($pathDelalbumImg."/".$albumImg_name)){//ทำการลบข้อมูลรูปรายละเอียดสินค้าแต่ละรายการในตารางฐานข้อมูล
+                                $delImgAlbum = albumproducts::find($id)->delete();
+                                // Start ทำการตรวจสอบว่าในโฟลเดอร์มีไฟล์อยู่หรือไม่
+                                $dirFolderAlbum = opendir($pathDelalbumImg);
+                                $data ="";
+                                $fcount = 0;
+                                while($data = readdir($dirFolderAlbum)){
+                                    $fcount = $fcount+1;
+                                    echo "<br>";
+                                    echo "filename:" . $data . "<br>";
+                                    echo "fcount:" . $fcount . "<br>";
+                                }
+
+                                if(($fcount < 3)){
+                                    rmdir($pathDelalbumImg); // ทำการลบโฟลเดอร์รูปภาพรายละเอียดสินค้า
+                                    return redirect()->back()->with('success','ลบข้อมูลรูปภาพรายละเอียดสินค้า พร้อมทั้ง Folder ที่จัดเก็บรูปภาพสำเร็จ');
+                                }else{
+                                    return redirect()->back()->with('success','ลบข้อมูลเฉพาะรูปภาพรายละเอียดสินค้าสำเร็จ');
+                                }
+                                closedir($dirFolderAlbum);
+                                // End ทำการตรวจสอบว่าในโฟลเดอร์มีไฟล์อยู่หรือไม่
+
+                            }else{
+                                return redirect()->back()->with('unsuccess','ลบข้อมูลรูปภาพรายละเอียดสินค้าดังกล่าว ไม่สำเร็จ!!');
+                            }
+                        }else{// หากไม่พบว่ามีไฟล์ดังกล่าวอยู่ในโฟลเดอร์
+                            return redirect()->back()->with('unsuccess','ลบข้อมูล ไม่สำเร็จ เพราะไม่มีไฟล์ชื่อนี้อยู่ที่โฟลเดอร์ตามที่ระบุ!!');
+                        }
+
+                }else{//
+                    return redirect()->back()->with('unsuccess','ลบข้อมูลรูปภาพรายละเอียดสินค้าดังกล่าว ไม่สำเร็จ!!');
+                }
+
+            }else{//หากไม่พบหมายเลข id ของ albumImage ในตารางฐานข้อมูลจะให้ออกจากการทำงาน controller นี้
+                return redirect()->back()->with('unsuccess','ลบข้อมูลรูปภาพรายละเอียดสินค้าดังกล่าว ไม่สำเร็จ!!');
+            }
+        }else{
+            return redirect()->back()->with('unsuccess','ลบข้อมูลรูปภาพรายละเอียดสินค้าดังกล่าว ไม่สำเร็จ!!');
         }
     }
 }

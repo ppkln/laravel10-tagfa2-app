@@ -53,7 +53,7 @@
                                 <div class="form-group">
                                     <input type="hidden" name="Old_img" value="{{$productEdit->productcover_img}}">
                                     <input type="hidden" name="productcover_folder" value="{{$productEdit->productcover_folder}}">
-                                    <label for="productcover_img">รูปปกสินค้า:</label><span class="text-warning"> (เฉพาะไฟล์นามสกุล jpg,jpeg,png เท่านั้น และขนาดไฟล์ไม่เกิน 2 MB.) </span>
+                                    <label for="productcover_img">แก้ไขรูปปกสินค้า:</label><span class="text-warning"> (เฉพาะไฟล์นามสกุล jpg,jpeg,png เท่านั้น และขนาดไฟล์ไม่เกิน 2 MB.) </span>
                                     <input type="file" class="form-control" id="productcover_img" name="productcover_img" accept="image/jpeg,image/jpg,image/png">
                                     <img src="/products_img/{{$productEdit->productcover_folder}}/{{$productEdit->productcover_img}}" id="previewImg" alt="" class="mt-2" width="300px">
                                 </div>
@@ -71,9 +71,9 @@
                                     @endif
                                 </div>
                                 <br />
-                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-success" >จัดการรูปภาพสินค้า</a>
+                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-success" >จัดการรูปภาพรายละเอียดสินค้า</a>
                                 <div class="text-center">
-                                    <input type="submit" class="btn btn-primary" value="แก้ไขข้อมูล">
+                                    <input type="submit" class="btn btn-primary" value="ปรับปรุงข้อมูล">
                                 </div>
                             </form>
                         </div>

@@ -63,9 +63,7 @@
                                                 <img src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="{{$value->img_name}}" />
                                             </a>
                                             </div>
-                                            <div class="products-detail">
-                                                ชื่อไฟล์ภาพ: {{$value->img_name}}
-                                            </div >
+
                                             <div class="products-price d-flex">
                                                 <div class="products-left">
                                                     วันที่บันทึก:
@@ -73,6 +71,9 @@
                                                 <div class="products-right">
                                                     {{$value->created_at}}
                                                 </div >
+                                            </div >
+                                            <div class="products-detail">
+                                                <a href="{{url('/albumproducts/deleteImg/'.$value->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
                                             </div >
                                         </div>
                                     @endforeach
