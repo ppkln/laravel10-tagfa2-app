@@ -106,10 +106,6 @@
                                 <div class="card-header text-center text-primary"><strong>ข้อมูลสินค้า</strong></div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <input type="hidden" name="product_id" value="{{$productDetail->id}}">
-                                        <input type="hidden" name="productcover_folder" value="{{$productDetail->productcover_folder}}">
-                                        <input type="hidden" name="product_no" value="{{$productDetail->product_no}}">
-                                        <input type="hidden" name="user_id" value="{{Auth::User()->id}}">
                                         <label class="text-success d-flex">รหัสสินค้า :  </label><span class="text-primary"> {{$productDetail->product_no}}</span><br/>
                                         <label class="text-success d-flex">ชื่อสินค้า :  </label><span class="text-primary"> {{$productDetail->product_title}}</span><br/>
                                         <label class="text-danger" >รูปปกสินค้า:</label>
