@@ -103,11 +103,7 @@ class AlbumProductsController extends Controller
                                 $fcount = 0;
                                 while($data = readdir($dirFolderAlbum)){
                                     $fcount = $fcount+1;
-                                    echo "<br>";
-                                    echo "filename:" . $data . "<br>";
-                                    echo "fcount:" . $fcount . "<br>";
                                 }
-
                                 if(($fcount < 3)){
                                     rmdir($pathDelalbumImg); // ทำการลบโฟลเดอร์รูปภาพรายละเอียดสินค้า
                                     return redirect()->back()->with('success','ลบข้อมูลรูปภาพรายละเอียดสินค้า พร้อมทั้ง Folder ที่จัดเก็บรูปภาพสำเร็จ');

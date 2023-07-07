@@ -12,6 +12,13 @@ use Illuminate\Validation\Rules\Unique;
 class ProductsController extends Controller
 {
     //
+    public function welcome(){
+        $productlist = products::where('publish_status',1)->latest()->paginate(8); //กำหนดขนาดจำนวนรายการข้อมูลที่แสดงต่อ 1 หน้าเพจ และเป็นเรียงจากข้อมูลล่าสุดขึ้นก่อน
+        if($productlist){
+            return view('welcome',compact('productlist'));
+        }
+    }
+
     public function index(){
         $products = products::all();
         if($products){
@@ -22,7 +29,6 @@ class ProductsController extends Controller
         }else {
             return view('welcome');
         }
-
     }
 
     public function insertProduct(Request $request){

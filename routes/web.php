@@ -16,9 +16,10 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+Route::get('/',[ProductsController::class,'welcome'])->name('welcome');
 
 Route::middleware([
     'auth:sanctum',
