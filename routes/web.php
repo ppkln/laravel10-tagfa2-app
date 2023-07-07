@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductsController;
 //     return view('welcome');
 // })->name('welcome');
 Route::get('/',[ProductsController::class,'welcome'])->name('welcome');
+Route::get('/detailsProduct/{id}',[ProductsController::class,'detailsProduct']);
 
 Route::middleware([
     'auth:sanctum',

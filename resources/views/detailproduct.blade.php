@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -69,7 +70,6 @@
         .products-right span{
             font-size: 6px;
         }
-
         </style>
 
 
@@ -96,65 +96,65 @@
                     <img src="/logo-nueng1.png" alt="logo" height="100px" width="100px">
                 </div>
             </a>
+
                 <!-- start ส่วนเพิ่มเอง-->
-                    <div class="container my-2">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="card">
-                                    <div class="card-header text-center text-primary"><strong>ตารางรายการข้อมูลสินค้า</strong></div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                        <!-- แบบ Gallery -->
-                                        <div class="container-album">
-                                            <div class="products-con">
-                                                @foreach($productlist as $key => $value)
-                                                    <div class="products-item">
-                                                        <div class="products-img">
-                                                            <a class="image"
-                                                            data-fancybox="gallery"
-                                                            data-src="/products_img/{{$value->productcover_folder}}/{{$value->productcover_img}}"
-                                                            href="{{url('/detailsProduct/'.$value->id)}}"
-                                                            >
-                                                            <img src="/products_img/{{$value->productcover_folder}}/{{$value->productcover_img}}" alt="" />
-                                                        </a>
-                                                        </div>
-                                                        <div class="products-price">
-                                                            <div class="products-left text-primary">
-                                                                ชื่อ: {{$value->product_title}} <br/>
-                                                            </div >
-                                                            <div class="products-right text-warning">
-                                                                ราคา: {{$value->product_price}} บาท
-                                                            </div >
-                                                        </div >
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <!-- end แบบ Gallerry -->
-                                            <br />
-                                                <div>
-                                                    {{$productlist->onEachSide(1)->links()}} <!-- คำสั่งแสดงปุ่นกดไปแต่ละหน้า โดยหากมีจำนวนหน้ามากจะแบ่งย่อให้ดูง่ายขึ้น -->
-                                                </div>
-                                        </div>
-
+                <div class="py-12">
+                <div class="container my-2">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-header text-center text-primary"><strong>ข้อมูลสินค้า</strong></div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <input type="hidden" name="product_id" value="{{$productDetail->id}}">
+                                        <input type="hidden" name="productcover_folder" value="{{$productDetail->productcover_folder}}">
+                                        <input type="hidden" name="product_no" value="{{$productDetail->product_no}}">
+                                        <input type="hidden" name="user_id" value="{{Auth::User()->id}}">
+                                        <label class="text-success d-flex">รหัสสินค้า :  </label><span class="text-primary"> {{$productDetail->product_no}}</span><br/>
+                                        <label class="text-success d-flex">ชื่อสินค้า :  </label><span class="text-primary"> {{$productDetail->product_title}}</span><br/>
+                                        <label class="text-danger" >รูปปกสินค้า:</label>
+                                        <img src="/products_img/{{$productDetail->productcover_folder}}/{{$productDetail->productcover_img}}" id="previewCoverImg" alt="" class="p-2" style="width: 400px;">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                <div class="card-header text-center text-primary">ผู้สนับสนุน</div>
-                                    <div class="card-body">
-
+                                    <hr>
+                                    <div class="row">
+                                        <label class="text-danger p-2" >รูปภาพรายละเอียดสินค้า: </label>
+                                    </div>
+                                    <div class="container-album">
+                                        <div class="products-con">
+                                            @foreach($album_data as $key => $value)
+                                                <div class="products-item">
+                                                    <div class="products-img">
+                                                        <a class="image"
+                                                        data-fancybox="gallery"
+                                                        data-src="/products_img/{{$productDetail->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}"
+                                                    >
+                                                        <img src="/products_img/{{$productDetail->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="{{$value->img_name}}" />
+                                                    </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="container ">
+
+                    </div>
+            </div>
                 <!-- End ส่วนเพิ่มเอง-->
                 <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
                 </div>
             </div>
         </div>
-
+    <!-- script of fancybox -->
+    <script>
+      Fancybox.bind('[data-fancybox="gallery"]', {
+        //
+      });
+    </script>
     </body>
 </html>
+

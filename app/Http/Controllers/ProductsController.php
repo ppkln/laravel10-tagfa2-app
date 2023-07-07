@@ -31,6 +31,20 @@ class ProductsController extends Controller
         }
     }
 
+    public function detailsProduct($id){
+        $productDetail = products::find($id);
+        if($productDetail){
+            $album_data = albumproducts::where('product_no', $productDetail->product_no)->get();
+            if($album_data){
+                return view('detailproduct',compact('productDetail','album_data'));
+            }else{
+                return view('welcome');
+            }
+        }else{
+            return view('welcome');
+        }
+    }
+
     public function insertProduct(Request $request){
         $request->validate([
             'product_title' =>'required|unique:products|max:255',
