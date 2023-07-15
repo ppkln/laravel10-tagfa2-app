@@ -16,7 +16,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <!-- Scripts CDN Bootstrap 5 -->
 
-        <!-- fancybox Gallery-->
+        <!-- fancybox Gallery โดยผู้พัฒนา -->
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
         <link
             rel="stylesheet"
@@ -29,7 +29,7 @@
         <!-- Styles -->
         @livewireStyles
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <!-- Gallery script -->
+        <!-- Gallery script โดยผู้พัฒนา-->
         <style >
         *{
             margin:0;
@@ -97,5 +97,7 @@
         @stack('modals')
 
         @livewireScripts
+
+
     </body>
 </html>

@@ -70,8 +70,32 @@
         .products-right span{
             font-size: 6px;
         }
-        </style>
+        .img_container img{
+            height: auto;
+            margin: auto auto;
+            display: block;
+            }
 
+            #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: navy;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+            }
+            #myBtn:hover {
+            background-color: #345;
+            }
+
+        </style>
 
     </head>
     <body class="antialiased">
@@ -93,11 +117,34 @@
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <a href="{{route('welcome')}}">
                 <div class="flex justify-center">
-                    <img src="/logo-nueng1.png" alt="logo" height="100px" width="100px">
+                    <img src="/TAGFA-LOGO.png" alt="logo" height="100%" width="100%">
                 </div>
             </a>
 
                 <!-- start ส่วนเพิ่มเอง-->
+                <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+                <!-- start Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{route('welcome')}}">หน้าแรก</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="#">เกี่ยวกับสมาคม</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{url('https://web.facebook.com/thetagfa?_rdc=1&_rdr')}}">ติดต่อสมาคม</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    </nav>
+                <!-- end Navbar -->
                 <div class="py-12">
                 <div class="container my-2">
                     <div class="row">
@@ -106,10 +153,18 @@
                                 <div class="card-header text-center text-primary"><strong>ข้อมูลสินค้า</strong></div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <label class="text-success d-flex">รหัสสินค้า :  </label><span class="text-primary"> {{$productDetail->product_no}}</span><br/>
-                                        <label class="text-success d-flex">ชื่อสินค้า :  </label><span class="text-primary"> {{$productDetail->product_title}}</span><br/>
-                                        <label class="text-danger" >รูปปกสินค้า:</label>
-                                        <img src="/products_img/{{$productDetail->productcover_folder}}/{{$productDetail->productcover_img}}" id="previewCoverImg" alt="" class="p-2" style="width: 400px;">
+                                        <div class="img_container">
+                                            <img src="/products_img/{{$productDetail->productcover_folder}}/{{$productDetail->productcover_img}}" id="previewCoverImg" alt="" class="p-2 item-center" style="width: 400px;">
+                                        </div>
+                                        <div class="d-flex">
+                                            <label class="text-success d-flex p-2 float-left"><strong>รหัสสินค้า : </strong> </label><span class="text-primary p-2"> {{$productDetail->product_no}}</span>
+                                            <label class="text-success d-flex p-2 float-right"><strong>ชื่อสินค้า : </strong> </label><span class="text-primary p-2"> {{$productDetail->product_title}}</span>
+                                            <label class="text-success d-flex p-2 float-right"><strong>วันที่ : </strong> </label><span class="text-primary p-2"> {{$productDetail->created_at}}</span>
+                                        </div>
+                                        <div class="d-flex">
+                                        <label class="text-success d-flex p-2 float-right"><strong>ราคา : </strong> </label><span class="text-primary p-2"> {{number_format($productDetail->product_price,2,'.',',')}}</span><label class="text-success d-flex p-2 float-right"><strong> บาท </strong> </label><br/>
+                                        </div>
+                                        <label class="text-success p-2 "><strong>รายละเอียดสินค้า :  </strong></label><span class="text-primary p-2">{{$productDetail->product_description}}</span><br/>
                                     </div>
                                     <hr>
                                     <div class="row">
@@ -150,6 +205,28 @@
       Fancybox.bind('[data-fancybox="gallery"]', {
         //
       });
+    </script>
+
+    <script>
+        // ปุ่น on top
+        let mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        }
     </script>
     </body>
 </html>

@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                <a href="{{route('welcome')}}"><img src="/logo-nueng1.png" alt="logo" height="60px" width="60px"></a>
+                <a href="{{route('welcome')}}"><img src="/TAGFA-LOGO.png" alt="logo" height="80px" width="80px"></a>
                 </div>
 
                 <!-- Navigation Links -->
@@ -17,6 +17,11 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{route('productslist')}}" >
                         {{'Products'}}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{route('sponsors')}}" >
+                        {{'Sponsors'}}
                     </x-nav-link>
                 </div>
             </div>
@@ -149,6 +154,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{route('productslist')}}" :active="request()->routeIs('dashboard')">
                 {{ ('Products') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link href="{{route('sponsors')}}" :active="request()->routeIs('dashboard')">
+                {{ ('Sponsors') }}
             </x-responsive-nav-link>
         </div>
 

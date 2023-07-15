@@ -106,33 +106,11 @@
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <a href="{{route('welcome')}}">
                 <div class="flex justify-center">
-                    <img src="/TAGFA-LOGO.png" alt="logo" height="100%" width="1190px">
+                    <img src="/logo-nueng1.png" alt="logo" height="100px" width="100px">
                 </div>
             </a>
                 <!-- start ส่วนเพิ่มเอง-->
-                <!-- start Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{route('welcome')}}">หน้าแรก</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link" href="#">เกี่ยวกับสมาคม</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link" href="{{url('https://web.facebook.com/thetagfa?_rdc=1&_rdr')}}">ติดต่อสมาคม</a>
-                            </li>
-                        </ul>
-                        </div>
-                    </div>
-                    </nav>
-                <!-- end Navbar -->
-                    <div class="container mt-4">
+                    <div class="container my-2">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">

@@ -4,6 +4,7 @@ use App\Http\Controllers\AlbumProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\sponsorscontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +45,11 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     Route::get('/albumproducts/album/{id}',[AlbumProductsController::class,'albumQueryId']);
     Route::post('/albumproducts/add',[AlbumProductsController::class,'albumAddImg'])->name('albumAddImg');
     Route::get('/albumproducts/deleteImg/{id}',[AlbumProductsController::class,'deleteImg']);
+    // ส่วนของ sponsor
+    Route::get('/sponsors',[sponsorscontroller::class,'index'])->name('sponsors');
+    Route::post('/sponsors/add',[sponsorscontroller::class,'insertSponsor'])->name('addSponsor');
+    Route::get('/sponsors/edit/{id}',[sponsorscontroller::class,'editSponsor']);
+    Route::post('/sponsors/update/{id}',[sponsorscontroller::class,'updateSponsor']);
+    Route::get('/sponsors/del/{id}',[sponsorscontroller::class,'deleteSponsor']);
 });
 

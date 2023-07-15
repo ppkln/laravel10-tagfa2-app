@@ -28,6 +28,10 @@
                 <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
+            <div class="mt-4">
+                <x-label for="lv_working" value="{{ __('Role as Administrator') }}" />
+                <x-input type="checkbox" id="lv_working" name="lv_working" value="9"   />
+            </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

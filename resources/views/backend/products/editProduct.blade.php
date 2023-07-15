@@ -18,7 +18,7 @@
                     </div>
                 @endif
                     <div class="card">
-                        <div class="card-header text-center">แบบฟอร์มเพิ่มข้อมูลสินค้า</div>
+                        <div class="card-header text-center">แบบฟอร์มปรับปรุงข้อมูลสินค้า</div>
                         <div class="card-body">
                             <form action="{{url('/products/update/'.$productEdit->id)}}" method="post" enctype="multipart/form-data">
                                 @csrf
@@ -70,11 +70,12 @@
                                     <label for="publish_status"  class="text-danger">ยังไม่แสดงผล  <input class="form-check-input" type="checkbox" name="publish_status"></label>
                                     @endif
                                 </div>
-                                <br />
-                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-success" >จัดการรูปภาพรายละเอียดสินค้า</a>
                                 <div class="text-center">
                                     <input type="submit" class="btn btn-primary" value="ปรับปรุงข้อมูล">
                                 </div>
+                                <br />
+                                <a href="{{url('/albumproducts/album/'.$productEdit->id)}}" class="btn btn-success" >จัดการรูปภาพรายละเอียดสินค้า</a>
+
                             </form>
                         </div>
                     </div>

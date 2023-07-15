@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\albumproducts;
-use App\Models\User;
+use App\Models\sponsors;
 use DateTime;
 use Illuminate\Validation\Rules\Unique;
 
@@ -13,9 +13,10 @@ class ProductsController extends Controller
 {
     //
     public function welcome(){
-        $productlist = products::where('publish_status',1)->latest()->paginate(8); //กำหนดขนาดจำนวนรายการข้อมูลที่แสดงต่อ 1 หน้าเพจ และเป็นเรียงจากข้อมูลล่าสุดขึ้นก่อน
-        if($productlist){
-            return view('welcome',compact('productlist'));
+        $productlist = products::where('publish_status',1)->latest()->paginate(6); //กำหนดขนาดจำนวนรายการข้อมูลที่แสดงต่อ 1 หน้าเพจ และเป็นเรียงจากข้อมูลล่าสุดขึ้นก่อน
+        $sponsors = sponsors::orderBy('sponsor_level','desc')->get();
+        if($productlist && $sponsors){
+            return view('welcome',compact('productlist','sponsors'));
         }
     }
 
@@ -27,7 +28,7 @@ class ProductsController extends Controller
                 return view('backend.products.index',compact('products','productlist'));
             }
         }else {
-            return view('welcome');
+            return redirect()->back();
         }
     }
 
@@ -41,7 +42,7 @@ class ProductsController extends Controller
                 return view('welcome');
             }
         }else{
-            return view('welcome');
+            return redirect()->back();
         }
     }
 
@@ -68,36 +69,42 @@ class ProductsController extends Controller
         if($fileSizeupload <= 2*1024*1024 && $fileSizeupload > 0){ //ตรวจสอบขนาดไฟล์ที่อัพโหลดต้องไม่่เกิน 2 MB.
             $cover_img = $request->file('productcover_img');//นำค่าไฟล์ที่ส่งผ่านด้วย method:post มาเก็บในตัวแปล
             $img_ext = strtolower($cover_img->getClientOriginalExtension()); //ทำการดึงชื่อนามสกุลของไฟล์พร้อมกับแปลงเป็นอักษรพิมพ์เล็ก
-            $newFilenameupload = mktime(date('H'),date('i'),date('s'),date('d'),date('m'),date('Y'))."coverImgPD.".$img_ext; // ตั้งชื่อใหม่ให้ไฟล์ภาพที่เราอัพโหลด ด้วยการประยุกต์ใช้รูปแบบของวันเวลาปัจจุบันมากำหนดเป็นชื่อ
-            //สร้าง folder เพื่อทำเป็น path เป้าหมายปลายทางที่ใช้จัดเก็บไฟล์รูปภาพ
-            $random_productFD = "PDFD_".hexdec(uniqid());//สร้างชื่อ folder สินค้า ด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน16
-            $Pathfolderupload="../public/products_img/";//โฟลเดอร์เริ่มต้นที่ public
-            $mkdirfolder = mkdir($Pathfolderupload.$random_productFD,0777,true); //คำสั่งให้ทำการสร้าง Folder ที่ server
-            //upload ไฟล์ไปที่ server
-            if($mkdirfolder){
-                if($cover_img->move($Pathfolderupload.$random_productFD,$newFilenameupload)){
-                    //บันทีกข้อมูลลงตารางข้อมูล เมื่อตรวจสอบพบว่ารูปภาพถูกอัพโหลดไปที่ server สำเร็จจริง
-                    $random_productID = "PDID_".hexdec(uniqid());//สร้างรหัสสินค้าด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน 16 เพื่อเอาไว้ใช้ตอนบันทึกลงตารางฐานข้อมูล
+            $checkExt = array('jpg','jpeg','png','gif','svg','ico');
+            if(in_array($img_ext,$checkExt)){
+                $newFilenameupload = mktime(date('H'),date('i'),date('s'),date('d'),date('m'),date('Y'))."coverImgPD.".$img_ext; // ตั้งชื่อใหม่ให้ไฟล์ภาพที่เราอัพโหลด ด้วยการประยุกต์ใช้รูปแบบของวันเวลาปัจจุบันมากำหนดเป็นชื่อ
+                //สร้าง folder เพื่อทำเป็น path เป้าหมายปลายทางที่ใช้จัดเก็บไฟล์รูปภาพ
+                $random_productFD = "PDFD_".hexdec(uniqid());//สร้างชื่อ folder สินค้า ด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน16
+                $Pathfolderupload="../public/products_img/";//โฟลเดอร์เริ่มต้นที่ public
+                $mkdirfolder = mkdir($Pathfolderupload.$random_productFD,0777,true); //คำสั่งให้ทำการสร้าง Folder ที่ server
+                //upload ไฟล์ไปที่ server
+                if($mkdirfolder){
+                    if($cover_img->move($Pathfolderupload.$random_productFD,$newFilenameupload)){
+                        //บันทีกข้อมูลลงตารางข้อมูล เมื่อตรวจสอบพบว่ารูปภาพถูกอัพโหลดไปที่ server สำเร็จจริง
+                        $random_productID = "PDID_".hexdec(uniqid());//สร้างรหัสสินค้าด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน 16 เพื่อเอาไว้ใช้ตอนบันทึกลงตารางฐานข้อมูล
 
-                    $productdata = new products;
-                    $productdata->product_no = $random_productID;
-                    $productdata->product_title = $request->product_title;
-                    $productdata->product_description = $request->product_description;
-                    $productdata->productcover_folder = $random_productFD;//ชื่อ path folder ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
-                    $productdata->productcover_img = $newFilenameupload;//ชื่อใหม่ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
-                    $productdata->product_price = $request->product_price;
-                    $productdata->product_unit = $request->product_unit;
-                    $productdata->user_id = $request->user_id;
-                    $productdata->product_category = 'uncategorized';
-                    $productdata->publish_status = 0;
-                    $productdata->save();
+                        $productdata = new products;
+                        $productdata->product_no = $random_productID;
+                        $productdata->product_title = $request->product_title;
+                        $productdata->product_description = $request->product_description;
+                        $productdata->productcover_folder = $random_productFD;//ชื่อ path folder ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
+                        $productdata->productcover_img = $newFilenameupload;//ชื่อใหม่ของรูปภาพปกสินค้าที่ server สร้างขึ้นใหม่
+                        $productdata->product_price = $request->product_price;
+                        $productdata->product_unit = $request->product_unit;
+                        $productdata->user_id = $request->user_id;
+                        $productdata->product_category = 'uncategorized';
+                        $productdata->publish_status = 0;
+                        $productdata->save();
 
-                    //return view('backend.products.index',compact('products','productlist'))->with('success','บันทึกข้อมูลสินค้าเรียบร้อย');
-                    return redirect()->back()->with('success','บันทึกข้อมูลเรียบร้อย');
+                        //return view('backend.products.index',compact('products','productlist'))->with('success','บันทึกข้อมูลสินค้าเรียบร้อย');
+                        return redirect()->back()->with('success','บันทึกข้อมูลเรียบร้อย');
+                    };
                 };
-            };
+            }else{
+                return redirect()->back()->with('unsuccess','บันทึกข้อมูลไม่สำเร็จ เพราะชนิดของไฟล์ไม่ถูกต้อง');
+            }
+
         }else{
-            return redirect()->back()->with('unsuccess','บันทึกข้อมูลไม่สำเร็จ เพราะขนาดของไฟล์มากกว่า 3 MB หรือไม่มีการอัพโหลดไฟล์');
+            return redirect()->back()->with('unsuccess','บันทึกข้อมูลไม่สำเร็จ เพราะขนาดของไฟล์มากกว่า 2 MB หรือไม่มีการอัพโหลดไฟล์');
         };
 
     }
@@ -107,7 +114,7 @@ class ProductsController extends Controller
         if($productEdit){
             return view('backend.products.editProduct',compact('productEdit'));
         }else{
-            return view('welcome');
+            return redirect()->back();
         }
 
     }
@@ -145,7 +152,7 @@ class ProductsController extends Controller
                 if($productcover_img->move($Pathfolderupload,$newFilenameupload)){
                     products::find($id)->update([
                         'product_title'=>$request->product_title,
-                        'product_description'=>$request->product_description,
+                        'product_description'=> $request->product_description,
                         'productcover_img'=>$newFilenameupload,
                         'product_unit'=>$request->product_unit,
                         'product_price'=>$request->product_price,
