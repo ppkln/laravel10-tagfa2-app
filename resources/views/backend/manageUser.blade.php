@@ -47,7 +47,7 @@
                                     <option value=5>5</option>
                                 </select>
                             </div>
-                            @error('sponsor_level')
+                            @error('lv_working')
                                 <span class="text-danger py-2">{{$message}}</span>
                             @enderror
 
