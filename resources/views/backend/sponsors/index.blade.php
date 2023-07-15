@@ -2,6 +2,11 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             สวัสดีคุณ {{Auth::User()->name}} ระดับการทำงาน: {{Auth::User()->lv_working}}
+            @if (Auth::User()->lv_working < 3) <!-- ตรวจสอบว่าผู้ที่ login มีสิทธิ์ใช้งานระดับไหน -->
+                ระดับการทำงาน: {{Auth::User()->lv_working}}
+                {{header( "location: /dashboard" );}}
+                {{exit(0);}}
+            @endif
         </h2>
     </x-slot>
 

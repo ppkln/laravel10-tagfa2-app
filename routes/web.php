@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\sponsorscontroller;
+use App\Http\Controllers\ManageUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,9 @@ Route::middleware([
 });
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function (){
+    // ส่วนของ manage user
+    Route::get('/manageUser/edit/{id}',[ManageUserController::class,'editPriority']);
+    Route::post('/manageUser/update/{id}',[ManageUserController::class,'updatePriority']);
     // ส่วนของ Product
     Route::get('/products',[ProductsController::class,'index'])->name('productslist');
     Route::post('/products/add',[ProductsController::class,'insertProduct'])->name('addProduct');

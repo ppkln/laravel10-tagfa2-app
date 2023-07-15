@@ -29,8 +29,7 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
             <div class="mt-4">
-                <x-label for="lv_working" value="{{ __('ระดับผู้ดูแลระบบ') }}" />
-                <x-input type="checkbox" id="lv_working" name="lv_working" value="9"   />
+                <x-input type="hidden" id="lv_working" name="lv_working" value="1"   />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
