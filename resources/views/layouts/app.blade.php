@@ -69,6 +69,37 @@
         .products-right span{
             font-size: 6px;
         }
+
+
+        .posts-con{
+            display:grid;
+            grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+            grid-gap:0.5rem;
+        }
+        .posts-item {
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+            transition:0.3s;
+        }
+        .posts-item:hover {
+            border: 1px solid orange;
+        }
+        .posts-detail {
+            padding:0.5rem;
+        }
+        .posts-img img{
+            width:100%;
+        }
+        .posts-price {
+            padding: 1rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .posts-left span{
+            font-size: 6px;
+        }
+        .posts-right span{
+            font-size: 6px;
+        }
         </style>
 
 

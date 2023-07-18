@@ -42,7 +42,7 @@
             max-width:500px;
             margin:0 auto;
         }
-        .products-con{
+        .posts-con{
             display:grid;
             grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
             grid-gap:0.5rem;
@@ -52,34 +52,34 @@
             grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
             grid-gap:0.5rem;
         }
-        .products-item {
+        .posts-item {
             box-shadow: 0 0 5px rgba(0,0,0,0.3);
             transition:0.3s;
         }
         .sponsor-item {
             transition:0.3s;
         }
-        .products-item:hover {
+        .posts-item:hover {
             border: 1px solid orange;
         }
-        .products-detail {
+        .posts-detail {
             padding:0.5rem;
         }
-        .products-img img{
+        .posts-img img{
             width:100%;
         }
         .sponsor-img{
             width:80%;
         }
-        .products-price {
+        .posts-price {
             padding: 1rem;
             align-items: center;
             justify-content: space-between;
         }
-        .products-left span{
+        .posts-left span{
             font-size: 6px;
         }
-        .products-right span{
+        .posts-right span{
             font-size: 6px;
         }
         </style>
@@ -95,7 +95,7 @@
             @endif
 
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
-            <a href="{{route('welcome')}}">
+            <a href="{{route('home')}}">
                 <div class="flex justify-center">
                     <img src="/TAGFA-LOGO.png" alt="logo" height="100%" width="100%">
                 </div>
@@ -110,7 +110,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{route('welcome')}}">หน้าแรก</a>
+                            <a class="nav-link active" aria-current="page" href="{{route('home')}}">หน้าแรก</a>
                             </li>
                             <li class="nav-item">
                             <a class="nav-link" href="#">เกี่ยวกับสมาคม</a>
@@ -127,29 +127,29 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
-                                    <div class="card-header text-center text-primary"><strong>ตารางรายการข้อมูลสินค้า</strong></div>
+                                    <div class="card-header text-center text-primary"><strong>กิจกรรม</strong></div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                         <!-- แบบ Gallery -->
                                         <div class="container-album">
-                                            <div class="products-con">
-                                                @foreach($productlist as $key => $value)
-                                                    <div class="products-item">
-                                                        <div class="products-img p-2">
+                                            <div class="posts-con">
+                                                @foreach($postlist as $key => $value)
+                                                    <div class="posts-item">
+                                                        <div class="posts-img p-2">
                                                             <a class="image"
                                                             data-fancybox="gallery"
-                                                            data-src="/products_img/{{$value->productcover_folder}}/{{$value->productcover_img}}"
-                                                            href="{{url('/detailsProduct/'.$value->id)}}"
+                                                            data-src="/posts_img/{{$value->postcover_folder}}/{{$value->postcover_img}}"
+                                                            href="{{url('/detailsPost/'.$value->id)}}"
                                                             >
-                                                            <img src="/products_img/{{$value->productcover_folder}}/{{$value->productcover_img}}" alt="" />
+                                                            <img src="/posts_img/{{$value->postcover_folder}}/{{$value->postcover_img}}" alt="" />
                                                         </a>
                                                         </div>
-                                                        <div class="products-price">
-                                                            <div class="products-left text-primary">
-                                                                ชื่อ: {{$value->product_title}} <br/>
+                                                        <div class="posts-price">
+                                                            <div class="posts-left text-primary">
+                                                                ชื่อ: {{$value->post_title}} <br/>
                                                             </div >
-                                                            <div class="products-right text-warning">
-                                                                ราคา: {{number_format($value->product_price,2,'.',',')}} บาท
+                                                            <div class="posts-right text-warning">
+                                                                วันที่โพส: {{$value->created_at}}
                                                             </div >
                                                         </div >
                                                     </div>
@@ -159,7 +159,7 @@
                                         <!-- end แบบ Gallerry -->
                                             <br />
                                                 <div>
-                                                    {{$productlist->onEachSide(1)->links()}} <!-- คำสั่งแสดงปุ่นกดไปแต่ละหน้า โดยหากมีจำนวนหน้ามากจะแบ่งย่อให้ดูง่ายขึ้น -->
+                                                    {{$postlist->onEachSide(1)->links()}} <!-- คำสั่งแสดงปุ่นกดไปแต่ละหน้า โดยหากมีจำนวนหน้ามากจะแบ่งย่อให้ดูง่ายขึ้น -->
                                                 </div>
                                         </div>
 
@@ -176,10 +176,10 @@
                                             <div class="sponsor-con">
                                                 @foreach($sponsors as $key => $value)
                                                     <div class="sponsor-item">
-                                                        <div class="products-img p-2">
+                                                        <div class="posts-img p-2">
                                                             <a class="image"
                                                             data-fancybox="gallery"
-                                                            data-src="/products_img/{{$value->sponsor_img}}"
+                                                            data-src="/posts_img/{{$value->sponsor_img}}"
                                                             href="{{$value->sponsor_link}}"
                                                             >
                                                             <img src="/sponsors_img/{{$value->sponsor_img}}" alt="" />

@@ -74,7 +74,7 @@ class ProductsController extends Controller
                 $newFilenameupload = mktime(date('H'),date('i'),date('s'),date('d'),date('m'),date('Y'))."coverImgPD.".$img_ext; // ตั้งชื่อใหม่ให้ไฟล์ภาพที่เราอัพโหลด ด้วยการประยุกต์ใช้รูปแบบของวันเวลาปัจจุบันมากำหนดเป็นชื่อ
                 //สร้าง folder เพื่อทำเป็น path เป้าหมายปลายทางที่ใช้จัดเก็บไฟล์รูปภาพ
                 $random_productFD = "PDFD_".hexdec(uniqid());//สร้างชื่อ folder สินค้า ด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน16
-                $Pathfolderupload="../public/products_img/";//โฟลเดอร์เริ่มต้นที่ public
+                $Pathfolderupload="./products_img/";//โฟลเดอร์เริ่มต้นที่ public
                 $mkdirfolder = mkdir($Pathfolderupload.$random_productFD,0777,true); //คำสั่งให้ทำการสร้าง Folder ที่ server
                 //upload ไฟล์ไปที่ server
                 if($mkdirfolder){
@@ -116,12 +116,21 @@ class ProductsController extends Controller
         }else{
             return redirect()->back();
         }
+    }
 
+    public function editNo($product_no){
+        $productEdit = products::where('product_no',$product_no)->first();
+        if($productEdit){
+            return view('backend.products.editProduct',compact('productEdit'));
+        }else{
+            return redirect()->back();
+        }
     }
 
     public function updateProduct(Request $request,$id){
         $request->validate([
             'product_title' =>'required|max:255',
+            'product_description'=>'required',
             'product_unit'=>'required|max:100',
             'product_price'=>'required|max:100',
         ],[
@@ -148,7 +157,7 @@ class ProductsController extends Controller
             if($fileSizeupload <= 2*1024*1024 ){//จำกัดขนาดไฟล์ที่อัพโหลด
                 $img_ext = strtolower($productcover_img->getClientOriginalExtension()); //ทำการดึงชื่อนามสกุลของไฟล์พร้อมกับแปลงเป็นอักษรพิมพ์เล็ก
                 $newFilenameupload = mktime(date('H'),date('i'),date('s'),date('d'),date('m'),date('Y'))."coverImgPD.".$img_ext; // ตั้งชื่อใหม่ให้ไฟล์ภาพที่เราอัพโหลด ด้วยการประยุกต์ใช้รูปแบบของวันเวลาปัจจุบันมากำหนดเป็นชื่อ
-                $Pathfolderupload="../public/products_img/".$productcover_folder;//พาทที่จะทำการอัพโหลดรูปภาพไปเก็บที่ Server ซึ่งอยู่ภายใต้ folder เดิม
+                $Pathfolderupload="./products_img/".$productcover_folder;//พาทที่จะทำการอัพโหลดรูปภาพไปเก็บที่ Server ซึ่งอยู่ภายใต้ folder เดิม
                 if($productcover_img->move($Pathfolderupload,$newFilenameupload)){
                     products::find($id)->update([
                         'product_title'=>$request->product_title,
@@ -195,7 +204,7 @@ class ProductsController extends Controller
                     $stmtAlbumDel = albumproducts::where('album_no',$folderAlbum)->get();//ค้นหาข้อมูลรูปรายละเอียดสินค้าทั้งหมด ที่จัดเก็บอยู่ในโฟลเดอร์ album_no นี้
                     foreach($stmtAlbumDel as $key=>$value){
                         $imgDel_name = $value->img_name;
-                        $pathDelImg = "../public/products_img/".$productcover_folder."/".$folderAlbum."/".$imgDel_name;
+                        $pathDelImg = "./products_img/".$productcover_folder."/".$folderAlbum."/".$imgDel_name;
                         if(file_exists($pathDelImg)){//หากมีไฟล์ชื่อนี้จริงใน path ที่ระบุ
                             if(unlink($pathDelImg)){//ทำการลบข้อมูลรูปรายละเอียดสินค้าแต่ละรายการในตารางฐานข้อมูล
                                 $delImgAlbum = albumproducts::find($value->id)->delete();
@@ -204,13 +213,13 @@ class ProductsController extends Controller
                             }
                         }
                     }
-                    $pathDelAlbum = "../public/products_img/".$productcover_folder."/".$folderAlbum;
+                    $pathDelAlbum = "./products_img/".$productcover_folder."/".$folderAlbum;
                     if(rmdir($pathDelAlbum)){//ลบโฟลเดอร์ album ที่ว่างเปล่าทิ้ง
                         $img_name = $productDel->productcover_img;
-                        $fullPathImg = "../public/products_img/".$productcover_folder."/".$img_name;
+                        $fullPathImg = "./products_img/".$productcover_folder."/".$img_name;
                         if(file_exists($fullPathImg)){//เช็คว่ามีไฟล์รูปภาพนี้อยู่จริงหรือไม่
                             if(unlink($fullPathImg)){ // หากลบลบรูปภาพปกสินค้าสำเร็จจริง
-                                $fullPathFolderDel = "../public/products_img/".$productcover_folder; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
+                                $fullPathFolderDel = "./products_img/".$productcover_folder; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
                                 if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
                                     $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
                                     return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
@@ -221,8 +230,8 @@ class ProductsController extends Controller
                             }else {
                                 return redirect()->back()->with('unsuccess','ลบข้อมูลไม่สำเร็จ');
                             }
-                        }elseif(file_exists("../public/products_img/".$productcover_folder)){
-                            $fullPathFolderDel = "../public/products_img/".$productcover_folder;
+                        }elseif(file_exists("./products_img/".$productcover_folder)){
+                            $fullPathFolderDel = "./products_img/".$productcover_folder;
                             if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
                                 $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
                                 return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
@@ -237,10 +246,10 @@ class ProductsController extends Controller
                 }
 
                 $img_name = $productDel->productcover_img;
-                $fullPathImg = "../public/products_img/".$productcover_folder."/".$img_name;
+                $fullPathImg = "./products_img/".$productcover_folder."/".$img_name;
                 if(file_exists($fullPathImg)){
                     if(unlink($fullPathImg)){ // หากลบลบรูปภาพปกสินค้าสำเร็จจริง
-                        $fullPathFolderDel = "../public/products_img/".$productcover_folder; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
+                        $fullPathFolderDel = "./products_img/".$productcover_folder; // path ที่อยู่่ของ Folder ที่ระบบสร้างไว้
                         if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
                             $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
                             return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
@@ -251,8 +260,8 @@ class ProductsController extends Controller
                     }else {
                         return redirect()->back()->with('unsuccess','ลบข้อมูลไม่สำเร็จ');
                     }
-                }elseif(file_exists("../public/products_img/".$productcover_folder)){
-                    $fullPathFolderDel = "../public/products_img/".$productcover_folder;
+                }elseif(file_exists("./products_img/".$productcover_folder)){
+                    $fullPathFolderDel = "./products_img/".$productcover_folder;
                     if(rmdir($fullPathFolderDel)){//คำสั่งลบ Folder เปล่า หลังจากลบรูปภาพปกสินค้าแล้ว
                         $delete = products::find($id)->delete();// ลบข้อมูลสินค้าในตารางฐานข้อมูล
                         return redirect()->back()->with('success','ลบข้อมูลเรียบร้อยแล้ว');
@@ -264,7 +273,5 @@ class ProductsController extends Controller
         }else{
             return view('productslist');
         }
-
-        //
     }
 }

@@ -42,7 +42,7 @@ class AlbumProductsController extends Controller
             $album_Oldno = albumproducts::where('product_no',$product_no)->first();
             if($album_Oldno){//กรณีเคยบันทึกข้อมูลรูปภาพเพิ่มเติมของสินค้าตัวนี้
                 $album_NO = $album_Oldno->album_no;
-                $PathfolderProduct="../public/products_img/".$productcover_folder."/";//ชื่อโฟลเดอร์ที่จัดเก็บข้อมูลรูปภาพของสินค้าชิ้นนี้
+                $PathfolderProduct="./products_img/".$productcover_folder."/";//ชื่อโฟลเดอร์ที่จัดเก็บข้อมูลรูปภาพของสินค้าชิ้นนี้
                 foreach($request->file('album_img') as $key=>$value){
                     $imgNewName = time().rand(1,99).'_albPD.'.$value->extension(); //ตั้งชื่อใหม่ให้รูปภาพด้วยวิธีการ random ชื่อ
                     if($value->move($PathfolderProduct.$album_NO,$imgNewName)){
@@ -59,7 +59,7 @@ class AlbumProductsController extends Controller
                 return redirect()->back()->with('success','เพิ่มข้อมูลรูปภาพสำเร็จแล้ว');
             }else{//กรณีไม่เคยบันทึกข้อมูลรูปภาพเพิ่มเติมของสินค้าตัวนี้
                 $album_NO = "ALBNO_".hexdec(uniqid());//สร้างหมายเลข Album สินค้า ด้วยวิธีการสุ่มตั้งชื่อด้วยเลขฐาน16
-                $PathfolderProduct="../public/products_img/".$productcover_folder."/";//ชื่อโฟลเดอร์ที่จัดเก็บข้อมูลรูปภาพของสินค้าชิ้นนี้
+                $PathfolderProduct="./products_img/".$productcover_folder."/";//ชื่อโฟลเดอร์ที่จัดเก็บข้อมูลรูปภาพของสินค้าชิ้นนี้
                 $mkdirfolder = mkdir($PathfolderProduct.$album_NO,0777,true); //คำสั่งให้ทำการสร้าง Folder ย่อยภายใน folder ที่เก็บภาพสินค้า
                 if($mkdirfolder){
                     foreach($request->file('album_img') as $key=>$value){
@@ -93,7 +93,7 @@ class AlbumProductsController extends Controller
                 $pathProduct_no = products::where('product_no', $product_no)->first();
                 if($pathProduct_no){
                     $ProductCover_folder = $pathProduct_no->productcover_folder;//ได้ชื่อโฟลเดอร์ที่เก็บรูปภาพปกสินค้า และเก็บไว้ในตัวแปร $ProductCover_folder
-                    $pathDelalbumImg = "../public/products_img/".$ProductCover_folder."/".$album_no ; // path สำหรับการลบไฟล์
+                    $pathDelalbumImg = "./products_img/".$ProductCover_folder."/".$album_no ; // path สำหรับการลบไฟล์
                         if(file_exists($pathDelalbumImg."/".$albumImg_name)){//หากมีไฟล์ชื่อนี้จริงใน path ที่ระบุ
                             if(unlink($pathDelalbumImg."/".$albumImg_name)){//ทำการลบข้อมูลรูปรายละเอียดสินค้าแต่ละรายการในตารางฐานข้อมูล
                                 $delImgAlbum = albumproducts::find($id)->delete();

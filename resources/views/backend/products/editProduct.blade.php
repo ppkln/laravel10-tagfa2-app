@@ -23,7 +23,7 @@
                     </div>
                 @endif
                     <div class="card">
-                        <div class="card-header text-center">แบบฟอร์มปรับปรุงข้อมูลสินค้า</div>
+                        <div class="card-header text-center text-primary">แบบฟอร์มปรับปรุงข้อมูลสินค้า</div>
                         <div class="card-body">
                             <form action="{{url('/products/update/'.$productEdit->id)}}" method="post" enctype="multipart/form-data">
                                 @csrf

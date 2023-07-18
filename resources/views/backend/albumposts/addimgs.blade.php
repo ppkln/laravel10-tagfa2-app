@@ -44,22 +44,22 @@
                     </div>
                 @endif
                     <div class="card">
-                        <div class="card-header text-center text-primary"><strong>แบบฟอร์มจัดการรูปภาพสินค้า</strong></div>
+                        <div class="card-header text-center text-primary"><strong>แบบฟอร์มจัดการรูปภาพโพส</strong></div>
                         <div class="card-body">
-                            <form action="{{route('albumAddImg')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('albumPostAddImg')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                 <div class=" text-left p-1">
-                                    <a href="{{url('/products/editNo/'.$product_album->product_no)}}" class="btn btn-sm navbar-btn btn-warning" ><< ย้อนกลับปรับปรุงข้อมูลสินค้า</a>
+                                    <a href="{{url('/posts/editNo/'.$post_album->post_no)}}" class="btn btn-sm navbar-btn btn-warning" ><< ย้อนกลับปรับปรุงข้อมูลโพส</a>
                                 </div>
-                                    <input type="hidden" name="product_id" value="{{$product_album->id}}">
-                                    <input type="hidden" name="productcover_folder" value="{{$product_album->productcover_folder}}">
-                                    <input type="hidden" name="product_no" value="{{$product_album->product_no}}">
+                                    <input type="hidden" name="post_id" value="{{$post_album->id}}">
+                                    <input type="hidden" name="postcover_folder" value="{{$post_album->postcover_folder}}">
+                                    <input type="hidden" name="post_no" value="{{$post_album->post_no}}">
                                     <input type="hidden" name="user_id" value="{{Auth::User()->id}}">
-                                    <label class="text-success">รหัสสินค้า :  </label><span class="text-primary"> {{$product_album->product_no}}</span><br/>
-                                    <label class="text-success">ชื่อสินค้า :  </label><span class="text-primary"> {{$product_album->product_title}}</span><br/>
-                                    <label class="text-danger" >รูปปกสินค้า:</label>
-                                    <img src="/products_img/{{$product_album->productcover_folder}}/{{$product_album->productcover_img}}" id="previewCoverImg" alt="" class="p-2" style="width: 400px;">
+                                    <label class="text-success">รหัสโพส :  </label><span class="text-primary"> {{$post_album->post_no}}</span><br/>
+                                    <label class="text-success">ชื่อโพส :  </label><span class="text-primary"> {{$post_album->post_title}}</span><br/>
+                                    <label class="text-danger" >รูปปกโพส:</label>
+                                    <img src="/posts_img/{{$post_album->postcover_folder}}/{{$post_album->postcover_img}}" id="previewCoverImg" alt="" class="p-2" style="width: 400px;">
                                     <div class="row">
                                         <div class="mt-2 p-2">
                                             <label class="mt-2 text-primary">เพิ่มรูป: <span class="text-warning"> (รองรับเฉพาะไฟล์นามสกุล jpg,jpeg,png เท่านั้น และไฟล์ขนาดไม่เกินไฟล์ละ 2 MB) </span>
@@ -78,31 +78,31 @@
                             </form>
                             <hr>
                             <div class="row">
-                                <label class="text-danger p-2" >รูปภาพรายละเอียดสินค้า: </label>
+                                <label class="text-danger p-2" >รูปภาพรายละเอียดโพส: </label>
                             </div>
                             <div class="container-album">
-                                <div class="products-con">
+                                <div class="posts-con">
                                     @foreach($album_data as $key => $value)
-                                        <div class="products-item">
-                                            <div class="products-img">
+                                        <div class="posts-item p-2">
+                                            <div class="posts-img">
                                                 <a class="image"
                                                 data-fancybox="gallery"
-                                                data-src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}"
+                                                data-src="/posts_img/{{$post_album->postcover_folder}}/{{$value->album_no}}/{{$value->img_name}}"
                                             >
-                                                <img src="/products_img/{{$product_album->productcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="{{$value->img_name}}" />
+                                                <img src="/posts_img/{{$post_album->postcover_folder}}/{{$value->album_no}}/{{$value->img_name}}" alt="{{$value->img_name}}"/>
                                             </a>
                                             </div>
 
-                                            <div class="products-price d-flex">
-                                                <div class="products-left">
+                                            <div class="posts-price d-flex">
+                                                <div class="posts-left text-primary">
                                                     วันที่บันทึก:
                                                 </div >
-                                                <div class="products-right">
+                                                <div class="posts-right">
                                                     {{$value->created_at}}
                                                 </div >
                                             </div >
-                                            <div class="products-detail">
-                                                <a href="{{url('/albumproducts/deleteImg/'.$value->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
+                                            <div class="posts-detail">
+                                                <a href="{{url('/albumposts/deleteImg/'.$value->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
                                             </div >
                                         </div>
                                     @endforeach
