@@ -100,6 +100,7 @@
         .posts-right span{
             font-size: 6px;
         }
+
         </style>
 
 

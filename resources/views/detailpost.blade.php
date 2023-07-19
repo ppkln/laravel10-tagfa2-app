@@ -98,7 +98,7 @@
         </style>
 
     </head>
-    <body class="antialiased">
+    <body class="antialiased ">
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 selection:bg-red-500 selection:text-white">
             @if (Route::has('login'))
                 <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
@@ -139,9 +139,9 @@
                     </nav>
                 <!-- end Navbar -->
                 <div class="py-12">
-                <div class="container my-2">
+                <div class="container p-2 ">
                     <div class="row">
-                        <div class="col-lg-10">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header text-center text-primary"><strong>ข้อมูลโพส</strong></div>
                                 <div class="card-body">

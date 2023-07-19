@@ -95,7 +95,7 @@
             @endif
 
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
-            <a href="{{route('welcome')}}">
+            <a href="{{route('home')}}">
                 <div class="flex justify-center">
                     <img src="/TAGFA-LOGO.png" alt="logo" height="100%" width="100%">
                 </div>
@@ -110,7 +110,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{route('welcome')}}">หน้าแรก</a>
+                            <a class="nav-link active" aria-current="page" href="{{route('home')}}">หน้าแรก</a>
                             </li>
                             <li class="nav-item">
                             <a class="nav-link" href="#">เกี่ยวกับสมาคม</a>
@@ -127,7 +127,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
-                                    <div class="card-header text-center text-primary"><strong>ตารางรายการข้อมูลสินค้า</strong></div>
+                                    <div class="card-header text-center text-primary"><strong>รายการสินค้า</strong></div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                         <!-- แบบ Gallery -->

@@ -44,7 +44,7 @@
                                         @foreach ($postlist as $row)
                                                     <tr>
                                                         <th scope="row">{{$postlist->firstItem()+$loop->index}}</th>
-                                                        <td>{{substr($row->post_no,0,8)}} ... {{substr($row->post_no,15,8)}}</td>
+                                                        <td><a href="{{url('/albumposts/album/'.$row->id)}}">{{substr($row->post_no,0,8)}} ... {{substr($row->post_no,15,8)}}</a></td>
                                                         <td>{{substr($row->post_title,0,30)}}</td>
                                                         <td>{{substr($row->post_description,0,50)}}</td>
                                                         <td><img src="/posts_img/{{$row->postcover_folder}}/{{$row->postcover_img}}" alt="" width="100px"></td>
@@ -67,7 +67,7 @@
                                                             </td>
                                                         @endif
                                                         <td class="text-nowrap text-center" >
-                                                            <a href="{{url('/posts/edit/'.$row->id)}}" class="btn btn-sm btn-warning" >ปรับปรุง</a>
+                                                            <a href="{{url('/posts/edit/'.$row->id)}}" class="btn btn-sm btn-warning" >จัดการแสดงผล</a>
                                                             <a href="{{url('/posts/del/'.$row->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
                                                         </td>
                                                     </tr>

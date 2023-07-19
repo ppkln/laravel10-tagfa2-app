@@ -44,7 +44,7 @@
                                         @foreach ($productlist as $row)
                                                     <tr>
                                                         <th scope="row">{{$productlist->firstItem()+$loop->index}}</th>
-                                                        <td>{{substr($row->product_no,0,8)}} ... {{substr($row->product_no,15,8)}}</td>
+                                                        <td><a href="{{url('/albumproducts/album/'.$row->id)}}">{{substr($row->product_no,0,8)}} ... {{substr($row->product_no,15,8)}}</a></td>
                                                         <td>{{substr($row->product_title,0,30)}}</td>
                                                         <td>{{substr($row->product_description,0,50)}}</td>
                                                         <td><img src="/products_img/{{$row->productcover_folder}}/{{$row->productcover_img}}" alt="" width="100px"></td>
@@ -67,7 +67,7 @@
                                                             </td>
                                                         @endif
                                                         <td class="text-nowrap text-center" >
-                                                            <a href="{{url('/products/edit/'.$row->id)}}" class="btn btn-sm btn-warning" >ปรับปรุง</a>
+                                                            <a href="{{url('/products/edit/'.$row->id)}}" class="btn btn-sm btn-warning" >จัดการแสดงผล</a>
                                                             <a href="{{url('/products/del/'.$row->id)}}" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันการลบข้อมูลนี้!!')">ลบ</a>
                                                         </td>
                                                     </tr>

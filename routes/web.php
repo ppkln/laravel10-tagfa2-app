@@ -23,7 +23,7 @@ use App\Http\Controllers\AlbumPostsController;
 // Route::get('/', function () {
 //     return view('welcome');
 // })->name('welcome');
-//Route::get('/',[ProductsController::class,'welcome'])->name('welcome');
+Route::get('/welcome',[ProductsController::class,'welcome'])->name('welcome');
 Route::get('/detailsProduct/{id}',[ProductsController::class,'detailsProduct']);
 Route::get('/detailsPost/{id}',[PostsController::class,'detailsPost']);
 
